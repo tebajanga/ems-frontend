@@ -10,41 +10,19 @@
 // export default ListEmployeeComponent
 
 // rafce
-import React from 'react'
+import React, {useEffect, useState} from 'react'
+import { listEmployees } from '../services/EmployeeService'
 
 const ListEmployeeComponent = () => {
-    const dummyData = [
-        {
-            "id": 1,
-            "firstName": "John",
-            "lastName": "Doe",
-            "email": "johndoe@email.com"
-        },
-        {
-            "id": 2,
-            "firstName": "Jane",
-            "lastName": "Doe",
-            "email": "janedoe@email.com"
-        },
-        {
-            "id": 3,
-            "firstName": "Sona",
-            "lastName": "Shi",
-            "email": "sonashi@email.com"
-        },
-        {
-            "id": 5,
-            "firstName": "Coy-Updated",
-            "lastName": "Mzungu",
-            "email": "coymzungu@email.com"
-        },
-        {
-            "id": 6,
-            "firstName": "test-name",
-            "lastName": "test-lname",
-            "email": "testuser@email.com"
-        }
-    ]
+    const [employees, setEmployees] = useState([]);
+
+    useEffect(() => {
+        listEmployees().then((response) => {
+            setEmployees(response.data);
+        }).catch(error => {
+            console.error(error);
+        })
+    }, []);
 
     return (
         <div className='container mt-4'>
@@ -60,7 +38,7 @@ const ListEmployeeComponent = () => {
                 </thead>
                 <tbody>
                     {
-                        dummyData.map(employee =>
+                        employees.map(employee =>
                             <tr key={employee.id}>
                                 <td>{employee.id}</td>
                                 <td>{employee.firstName}</td>
